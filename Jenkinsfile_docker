@@ -22,6 +22,7 @@ pipeline {
                 script{
                     deploy("Staging")
                 }
+            }
                 post{
                     success{
                         sh "bash send_notification.sh deploy_staging 0"
@@ -30,13 +31,13 @@ pipeline {
                         sh "bash send_notification.sh deploy_staging 1"
                 }
             }
-        }
     }
         stage('test-staging') {
             steps {
                 script{
                     test("Staging")
                 }
+            }
                 post{
                     success{
                         sh "bash send_notification.sh testing_staging 0"
@@ -46,12 +47,12 @@ pipeline {
                 }
             }
         }
-    }
         stage('deploy-prod') {
             steps {
                 script{
                     deploy("Production")
                 }
+            }
                 post{
                     success{
                         sh "bash send_notification.sh deploying_production 0"
@@ -61,12 +62,12 @@ pipeline {
                 }
             }
         }
-    }
         stage('test-prod') {
             steps {
                 script{
                     test("Production")
                 }
+            }
                 post{
                     success{
                         sh "bash send_notification.sh testing_production 0"
@@ -77,7 +78,6 @@ pipeline {
             }
         }
     }
-}
 }
 
 def deploy(String environment){
