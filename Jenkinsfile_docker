@@ -10,11 +10,11 @@ pipeline {
                 
             }
        post{
-             success{
-                sh " 'dev deployment' 0 send_notification.sh"
+            success{
+                sh send_notification.sh “dev deployment” 0
             }
             failure{
-                sh "=dev deployment' 1 send_notification.sh"
+                sh send_notification.sh “dev deployment” 1
             }
         }
     }
@@ -26,11 +26,11 @@ pipeline {
             }
         
          post{
-             success{
-                sh " 'dev deployment' 0 send_notification.sh"
+            success{
+                sh "send_notification.sh “dev deployment” 0"
             }
             failure{
-                sh "=dev deployment' 1 send_notification.sh"
+                sh "send_notification.sh “dev deployment” 1"
             }
         }
     }
@@ -43,10 +43,10 @@ pipeline {
         
         post{
             success{
-                sh " 'dev deployment' 0 send_notification.sh"
+                sh "send_notification.sh 'dev deployment' 0"
             }
             failure{
-                sh "=dev deployment' 1 send_notification.sh"
+                sh "send_notification.sh 'dev deployment' 1"
             }
         }
     }
@@ -57,11 +57,11 @@ pipeline {
                 }
             }
         post{
-             success{
-                sh " 'dev deployment' 0 send_notification.sh"
+            success{
+                sh "send_notification.sh “dev deployment” 0"
             }
             failure{
-                sh "=dev deployment' 1 send_notification.sh"
+                sh "send_notification.sh “dev deployment” 1"
             }
         }
     }
@@ -73,10 +73,10 @@ pipeline {
             }
         post{
             success{
-                sh " 'dev deployment' 0 send_notification.sh"
+                sh "send_notification.sh “dev deployment” 0"
             }
             failure{
-                sh "=dev deployment' 1 send_notification.sh"
+                sh "send_notification.sh “dev deployment” 1"
             }
         }
     }
