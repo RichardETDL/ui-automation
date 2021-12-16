@@ -9,7 +9,6 @@ pipeline {
                 sh "docker build -t wruper/mvn_tests:latest . -f Dockerfile"
                 
             }
-        }
        post{
             success{
                 sh "send_notification.sh “dev deployment” 0"
@@ -18,13 +17,14 @@ pipeline {
                 sh "send_notification.sh “dev deployment” 1"
             }
         }
+    }
         stage('deploy-staging') {
             steps {
                 script{
                     deploy("Staging")
                 }
             }
-        }
+        
          post{
             success{
                 sh "send_notification.sh “dev deployment” 0"
@@ -33,13 +33,14 @@ pipeline {
                 sh "send_notification.sh “dev deployment” 1"
             }
         }
+    }
         stage('test-staging') {
             steps {
                 script{
                     test("Staging")
                 }
             }
-        }
+        
         post{
             success{
                 sh "send_notification.sh “dev deployment” 0"
@@ -48,13 +49,13 @@ pipeline {
                 sh "send_notification.sh “dev deployment” 1"
             }
         }
+    }
         stage('deploy-prod') {
             steps {
                 script{
                     deploy("Production")
                 }
             }
-        }
         post{
             success{
                 sh "send_notification.sh “dev deployment” 0"
@@ -63,13 +64,13 @@ pipeline {
                 sh "send_notification.sh “dev deployment” 1"
             }
         }
+    }
         stage('test-prod') {
             steps {
                 script{
                     test("Production")
                 }
             }
-        }
         post{
             success{
                 sh "send_notification.sh “dev deployment” 0"
@@ -78,6 +79,7 @@ pipeline {
                 sh "send_notification.sh “dev deployment” 1"
             }
         }
+    }
    }
 }
 
