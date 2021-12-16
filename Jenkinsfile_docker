@@ -9,25 +9,31 @@ pipeline {
                 sh "docker build -t wruper/mvn_tests:latest . -f Dockerfile"
             }
         }
-        stage('deploy') {
+        stage('deploy-staging') {
             steps {
                 script{
-                    deploy("dev")
+                    deploy("Staging")
                 }
             }
         }
         stage('test-staging') {
             steps {
                 script{
-                    test("dev")
-                    error(msg)
+                    test("Staging")
                 }
             }
         }
-        stage('test-production') {
+        stage('deploy-prod') {
             steps {
                 script{
-                    test("dev")
+                    deploy("Production")
+                }
+            }
+        }
+        stage('test-prod') {
+            steps {
+                script{
+                    test("Production")
                 }
             }
         }
@@ -40,12 +46,4 @@ def deploy(String environment){
 
     def test(String environment){
     echo "Running tests to ${environment}.."
-    sh "docker run --network=host -d -t --name api-test-executor-${environment} api-test-executor:latest"
-    try{
-        sh "docker exec api-test-executor-${environment} cucumber --tags=@${environment} --format html --out test-output/report.html"
-    }
-    finally{
-        sh "docker cp api-test-executor-${environment}:/usr/src/api-tests/test-output/report.html report_${environment}.html"
-    }
-    sh "docker rm -f api-test-executor-${environment}"
     }
