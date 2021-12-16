@@ -11,7 +11,7 @@ pipeline {
             }
        post{
             success{
-                sh "./send_notification.sh ${dev deploymen} ${0}"
+                sh "./send_notification.sh dev_deploymen 0"
             }
             failure{
                 sh "./send_notification dev deployment 1"
