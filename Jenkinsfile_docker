@@ -10,11 +10,27 @@ pipeline {
                 
             }
         }
+       post{
+            success{
+                sh "send_notification.sh “dev deployment” 0"
+            }
+            failure{
+                sh "send_notification.sh “dev deployment” 1"
+            }
+        }
         stage('deploy-staging') {
             steps {
                 script{
                     deploy("Staging")
                 }
+            }
+        }
+         post{
+            success{
+                sh "send_notification.sh “dev deployment” 0"
+            }
+            failure{
+                sh "send_notification.sh “dev deployment” 1"
             }
         }
         stage('test-staging') {
@@ -24,11 +40,27 @@ pipeline {
                 }
             }
         }
+        post{
+            success{
+                sh "send_notification.sh “dev deployment” 0"
+            }
+            failure{
+                sh "send_notification.sh “dev deployment” 1"
+            }
+        }
         stage('deploy-prod') {
             steps {
                 script{
                     deploy("Production")
                 }
+            }
+        }
+        post{
+            success{
+                sh "send_notification.sh “dev deployment” 0"
+            }
+            failure{
+                sh "send_notification.sh “dev deployment” 1"
             }
         }
         stage('test-prod') {
@@ -38,15 +70,15 @@ pipeline {
                 }
             }
         }
+        post{
+            success{
+                sh "send_notification.sh “dev deployment” 0"
+            }
+            failure{
+                sh "send_notification.sh “dev deployment” 1"
+            }
+        }
    }
-    post{
-        success{
-            bash "send_notification.sh “dev deployment” 0"
-        }
-        failure{
-            bash "send_notification.sh “dev deployment” 1"
-        }
-    }
 }
 
 
