@@ -6,91 +6,85 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                script{
-                    try {
-                        sh "docker build -t wruper/mvn_tests:latest . -f Dockerfile"
-                    } catch (error) {
-                        notification("build", "failure")
-                            sh "exit 1"   
-                    } finally {
-                        notification("build", "success")
-                    }
+                sh "docker build -t wruper/mvn_tests:latest . -f Dockerfile"
+            }
+                post{
+                    success{
+                        sh "bash send_notification.sh build 0"
+                }
+                    failure{
+                        sh "bash send_notification.sh build 1"
                 }
             }
-        } 
+        }
         stage('deploy-staging') {
             steps {
                 script{
-                    try {
-                        deploy("Staging")
-                    } catch (error) {
-                        notification("staging_deployment", "failure")
-                            sh "exit 1"   
-                    } finally {
-                        notification("staging_deployment", "success")
-                    }
+                    deploy("Staging")
                 }
+                post{
+                    success{
+                        sh "bash send_notification.sh deploy_staging 0"
+                }
+                    failure{
+                        sh "bash send_notification.sh deploy_staging 1"
+                }
+            }
             }
         }
         stage('test-staging') {
             steps {
                 script{
-                    try {
-                        test("Staging")
-                    } catch (error) {
-                        notification("staging_test", "failure")
-                            sh "exit 1"   
-                    } finally {
-                        notification("staging_test", "success")
-                    }
+                    test("Staging")
                 }
+                post{
+                    success{
+                        sh "bash send_notification.sh testing_staging 0"
+                }
+                    failure{
+                        sh "bash send_notification.sh testing_staging 1"
+                }
+            }
             }
         }
         stage('deploy-prod') {
             steps {
                 script{
-                    try {
-                        deploy("Production")
-                    } catch (error) {
-                        notification("deploy_production", "failure")
-                            sh "exit 1"   
-                    } finally {
-                        notification("deploy_production", "success")
-                    }
+                    deploy("Production")
                 }
+                post{
+                    success{
+                        sh "bash send_notification.sh deploying_production 0"
+                }
+                    failure{
+                        sh "bash send_notification.sh deploying_production 1"
+                }
+            }
             }
         }
         stage('test-prod') {
             steps {
                 script{
-                    try {
-                        test("Production")
-                    } catch (error) {
-                        notification("test_production", "failure")
-                            sh "exit 1"   
-                    } finally {
-                        notification("test_production", "success")
-                    }
+                    test("Production")
+                }
+                post{
+                    success{
+                        sh "bash send_notification.sh testing_production 0"
+                }
+                    failure{
+                        sh "bash send_notification.sh testing_production 1"
                 }
             }
+            }
         }
-   }
-}
-
-
-def deploy(String env){
-    echo "Deployment to ${env} triggered.."
-   }
-
-def test(String env){
-    echo "Running tests to ${env}.."
-    }
-
-
-def notification(String env, String status) {
-    if (status == "success") {
-        sh "bash send_notification.sh ${env} 0"
-    } else {
-        sh "bash send_notification.sh ${env} 1"
     }
 }
+
+def deploy(String environment){
+        echo "Deployment to ${environment} triggered.."
+   }
+
+def test(String environment){
+    echo "Running tests to ${environment}.."
+
+    }
