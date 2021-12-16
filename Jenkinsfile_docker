@@ -11,10 +11,10 @@ pipeline {
             }
        post{
             success{
-                sh send_notification.sh “dev deployment” 0
+                sh "send_notification.sh 'dev deployment' 0"
             }
             failure{
-                sh send_notification.sh “dev deployment” 1
+                sh "send_notification.sh 'dev deployment' 1"
             }
         }
     }
@@ -91,12 +91,3 @@ def deploy(String environment){
 def test(String environment){
     echo "Running tests to ${environment}.."
     }
-
-def notification(Boolean status, String job){
-    if(status){
-        bash send_notification.sh job 0
-    }
-    else{
-        bash send_notification.sh “dev deployment” 0
-    }
-}
