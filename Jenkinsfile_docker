@@ -40,11 +40,11 @@ pipeline {
         }
    }
     post{
-        sucess{
-            bash send_notification.sh “dev deployment” 0
+        success{
+            bash "send_notification.sh “dev deployment” 0"
         }
         failure{
-            bash send_notification.sh “dev deployment” 1
+            bash "send_notification.sh “dev deployment” 1"
         }
     }
 }
