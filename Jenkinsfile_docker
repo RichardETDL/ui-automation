@@ -47,3 +47,4 @@ def deploy(String environment){
         sh "docker cp api-test-executor-${environment}:/usr/src/api-tests/test-output/report.html report_${environment}.html"
     }
     sh "docker rm -f api-test-executor-${environment}"
+    }
