@@ -81,9 +81,10 @@ pipeline {
 
 def deploy(String environment){
         echo "Deployment to ${environment} triggered.."
-   }
+}
 
 def test(String environment){
     echo "Running tests to ${environment}.."
 
-    }
+}
+}
