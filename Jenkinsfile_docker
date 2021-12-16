@@ -17,6 +17,7 @@ pipeline {
                 }
             }
         }
+    }
         stage('deploy-staging') {
             steps {
                 script{
@@ -31,6 +32,7 @@ pipeline {
                 }
             }
         }
+    }
         stage('test-staging') {
             steps {
                 script{
@@ -45,6 +47,7 @@ pipeline {
                 }
             }
         }
+    }
         stage('deploy-prod') {
             steps {
                 script{
@@ -59,6 +62,7 @@ pipeline {
                 }
             }
         }
+    }
         stage('test-prod') {
             steps {
                 script{
