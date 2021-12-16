@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+    triggers {
+        pollSCM('*/1 * * * *')
+    }
+    stages { 
+        stage('build') {
+            steps {
+                sh "docker build -t wruper/mvn_tests:latest . -f Dockerfile"
+            }
+        }
+        stage('deploy') {
+            steps {
+                script{
+                    deploy("dev")
+                }
+            }
+        }
+        stage('test-staging') {
+            steps {
+                script{
+                    test("dev")
+                }
+            }
+        }
+        stage('test-production') {
+            steps {
+                script{
+                    test("dev")
+                }
+            }
+        }
+    }
+}
+
+def deploy(String environment){
+        echo "Deployment to ${environment} triggered.."
+   }
+
+    def test(String environment){
+    echo "Running tests to ${environment}.."
+    sh "docker run --network=host -d -t --name api-test-executor-${environment} api-test-executor:latest"
+    try{
+        sh "docker exec api-test-executor-${environment} cucumber --tags=@${environment} --format html --out test-output/report.html"
+    }
+    finally{
+        sh "docker cp api-test-executor-${environment}:/usr/src/api-tests/test-output/report.html report_${environment}.html"
+    }
+    sh "docker rm -f api-test-executor-${environment}"
