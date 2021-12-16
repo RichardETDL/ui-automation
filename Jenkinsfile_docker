@@ -7,6 +7,7 @@ pipeline {
         stage('build') {
             steps {
                 sh "docker build -t wruper/mvn_tests:latest . -f Dockerfile"
+                
             }
         }
         stage('deploy-staging') {
@@ -37,13 +38,31 @@ pipeline {
                 }
             }
         }
+   }
+    post{
+        sucess{
+            bash send_notification.sh “dev deployment” 0
+        }
+        failure{
+            bash send_notification.sh “dev deployment” 1
+        }
     }
 }
 
+
 def deploy(String environment){
-        echo "Deployment to ${environment} triggered.."
+    echo "Deployment to ${environment} triggered.."
    }
 
-    def test(String environment){
+def test(String environment){
     echo "Running tests to ${environment}.."
     }
+
+def notification(Boolean status, String job){
+    if(status){
+        bash send_notification.sh job 0
+    }
+    else{
+        bash send_notification.sh “dev deployment” 0
+    }
+}
