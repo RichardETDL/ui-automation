@@ -30,7 +30,6 @@ pipeline {
                         sh "bash send_notification.sh deploy_staging 1"
                 }
             }
-            }
         }
         stage('test-staging') {
             steps {
@@ -44,7 +43,6 @@ pipeline {
                     failure{
                         sh "bash send_notification.sh testing_staging 1"
                 }
-            }
             }
         }
         stage('deploy-prod') {
@@ -60,7 +58,6 @@ pipeline {
                         sh "bash send_notification.sh deploying_production 1"
                 }
             }
-            }
         }
         stage('test-prod') {
             steps {
@@ -74,7 +71,6 @@ pipeline {
                     failure{
                         sh "bash send_notification.sh testing_production 1"
                 }
-            }
             }
         }
     }
