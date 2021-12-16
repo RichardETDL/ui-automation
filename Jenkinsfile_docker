@@ -11,10 +11,10 @@ pipeline {
             }
        post{
             success{
-                sh 'dev_deploymen 0 ./send_notification.sh'
+                sh 'bash send_notification.sh dev_deploymen 0'
             }
             failure{
-                sh './send_notification.sh dev_deploymen 1'
+                sh 'bash send_notification.sh dev_deploymen 1'
             }
         }
     }
