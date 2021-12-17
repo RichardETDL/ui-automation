@@ -36,6 +36,9 @@ pipeline {
             steps {
                 script{
                     test("Staging")
+                    deploySelenium()
+                    wait(20)
+                    closeSeleniumContainers()
                 }
             }
                 post{
@@ -66,6 +69,9 @@ pipeline {
             steps {
                 script{
                     test("Production")
+                    deploySelenium()
+                    wait(20)
+                    closeSeleniumContainers()
                 }
             }
                 post{
@@ -88,3 +94,13 @@ def test(String environment){
     echo "Running tests to ${environment}.."
 
 }
+
+def startSelenium(){
+    sh "docker-compose up"
+}
+
+def closeSeleniumContainers(){
+    sh "docker-compose rm -f"
+}
+
+
