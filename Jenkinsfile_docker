@@ -6,7 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker-compose rm -f"
+                sh "docker-compose rm -f" 
             }
                 post{
                     success{
