@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script{
                     test("Staging")
-                    deploySelenium()
+                    startSelenium(()
                     wait(20)
                     closeSeleniumContainers()
                 }
@@ -69,7 +69,7 @@ pipeline {
             steps {
                 script{
                     test("Production")
-                    deploySelenium()
+                    startSelenium(()
                     wait(20)
                     closeSeleniumContainers()
                 }
