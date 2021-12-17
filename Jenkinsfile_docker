@@ -6,6 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
+                sh "docker-compose rm -f"
                 sh "docker build -t wruper/mvn_tests:latest . -f Dockerfile"
             }
                 post{
