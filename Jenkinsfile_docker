@@ -35,7 +35,7 @@ pipeline {
         stage('test-staging') {
             steps {
                 script{  
-
+                        echo "a"
                 }
             }
                 post{
