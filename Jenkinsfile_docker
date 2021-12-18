@@ -6,7 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker ps -a"
+                sh "docker rm e5c102659ea5 531e04cd7029 77a7dcacc530 9e242de7b22b"
             }
                 post{
                     success{
@@ -89,16 +89,5 @@ def test(String environment){
 
 }
 
-def startSelenium(){
-    sh "docker-compose up"
-}
-
-def closeSeleniumContainers(){
-    sh "docker-compose rm -f"
-}
-
-def stopSeleniumContainers(){
-    sh "docker-compose stop"
-}
 
 
