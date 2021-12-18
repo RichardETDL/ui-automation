@@ -6,7 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-               sh "docker rm 69bee3c6bfaf 111ce0ddb407 19c54e792be9 2f24212a1cac"
+                buildImage()
             }
                 post{
                     success{
@@ -34,8 +34,13 @@ pipeline {
     }
         stage('test-staging') {
             steps {
-                script{  
-                        echo "a"
+                script{
+                    test("Staging")
+                    createSelenium()
+                    testSeleniumChrome()
+                    testSeleniumFirefox()
+                    removeSelenium()    
+
                 }
             }
                 post{
