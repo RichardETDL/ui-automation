@@ -6,7 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                buildImage()
+                sh "docker ps -a"
             }
                 post{
                     success{
@@ -36,11 +36,6 @@ pipeline {
             steps {
                 script{
                     test("Staging")
-                    createSeleniumHub()
-                    createWebBrowsers()
-                    testSeleniumChrome()
-                    testSeleniumFirefox()
-                    removeSelenium()    
 
                 }
             }
