@@ -6,7 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker rm e5c102659ea5 531e04cd7029 77a7dcacc530 9e242de7b22b"
+                build()
             }
                 post{
                     success{
@@ -36,6 +36,11 @@ pipeline {
             steps {
                 script{
                     test("Staging")
+                    createSelenium()
+                    testSeleniumChrome()
+                    testSeleniumFirefox()
+                    removeSelenium()    
+
                 }
             }
                 post{
@@ -86,7 +91,36 @@ def deploy(String environment){
 
 def test(String environment){
     echo "Running tests to ${environment}.."
+}
 
+def build(){
+    echo "Building image"
+    sh " docker build -t wruper/mvn_tests:latest . Dockerfile "
+}
+
+def createSelenium() {
+    echo "Building Selenium"
+    echo "Building Selenium-hub"
+    sh "docker run -d -p 4444:4444 --net test-automation-setup --rm --name hub selenium/hub:4.1.0-20211209"
+    echo "Building Firefox"
+    sh "docker run -d --rm --name firefox --net test-automation-setup -v /dev/shm:/dev/shm -e HUB_HOST=selenium-hub -e HUB_PORT=4444 selenium/node-firefox:3.141.59-20210929"
+    echo "Building Chrome"
+    sh "docker run -d --rm --name chrome --net test-automation-setup -v /dev/shm:/dev/shm -e HUB_HOST=selenium-hub -e HUB_PORT=4444 selenium/node-chrome:3.141.59-20210929"
+}
+
+def removeSelenium(){
+    echo "Removing Selenium-hub, Firefox, Chrome"
+    sh "docker rm -f hub"
+    sh "docker rm -f firefox"
+    sh "docker rm -f chrome"
+}
+
+def testSeleniumChrome(){
+    docker run -it --network=test-automation-setup mvn_tests mvn clean test -Dbrowser=chrome -DgridURL=hub:4444
+}
+
+def testSeleniumFirefox(){
+    docker run -it --network=test-automation-setup mvn_tests mvn clean test -Dbrowser=firefox -DgridURL=hub:4444
 }
 
 
