@@ -6,7 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                build()
+                buildImage()
             }
                 post{
                     success{
@@ -93,7 +93,7 @@ def test(String environment){
     echo "Running tests to ${environment}.."
 }
 
-def build(){
+def buildImage(){
     echo "Building image"
     sh " docker build -t wruper/mvn_tests:latest . Dockerfile "
 }
