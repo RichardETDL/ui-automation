@@ -6,8 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker-compose stop"
-                sh "docker-compose rm -f"
+                sh "docker ps -a"
             }
                 post{
                     success{
@@ -37,10 +36,6 @@ pipeline {
             steps {
                 script{
                     test("Staging")
-                    startSelenium()
-                    wait(20)
-                    stopSeleniumContainers()
-                    closeSeleniumContainers()
                 }
             }
                 post{
@@ -71,9 +66,6 @@ pipeline {
             steps {
                 script{
                     test("Production")
-                    startSelenium()
-                    wait(20)
-                    closeSeleniumContainers()
                 }
             }
                 post{
