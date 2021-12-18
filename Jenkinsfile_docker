@@ -35,11 +35,7 @@ pipeline {
         stage('test-staging') {
             steps {
                 script{
-                    test("Staging")
-                    createSelenium()
-                    testSeleniumChrome()
-                    testSeleniumFirefox()
-                    removeSelenium()    
+                    test("Staging")  
 
                 }
             }
