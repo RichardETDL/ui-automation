@@ -6,7 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker network create grid"
+                sh "docker network rm grid"
                 buildImage()
             }
                 post{
