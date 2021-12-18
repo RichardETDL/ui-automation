@@ -6,8 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker stop f3acf962b9f1756201a923e60d92b75bf7a9815ab5d2d4a9f666f940473df769"
-                sh "docker rm f3acf962b9f1756201a923e60d92b75bf7a9815ab5d2d4a9f666f940473df769"
+                buildImage()
             }
                 post{
                     success{
@@ -36,8 +35,13 @@ pipeline {
         stage('test-staging') {
             steps {
                 script{
-  
-                    echo "a"
+                    test("Staging")
+                    createSeleniumHub()
+                    createWebBrowsers()
+                    testSeleniumChrome()
+                    testSeleniumFirefox()
+                    removeSelenium()    
+
                 }
             }
                 post{
@@ -124,17 +128,17 @@ def createSeleniumHub(){
 sh "docker network create grid"
 sh "docker run -d -p 4442-4444:4442-4444 --net grid --name selenium-hub selenium/hub:4.1.1-20211217"
 sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
-    --shm-size= 2g \
+    --shm-size=2g \
     -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
     -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
     selenium/node-chrome:4.1.1-20211217"
 sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
-    --shm-size= 2g \
+    --shm-size=2g \
     -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
     -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
     selenium/node-edge:4.1.1-20211217"
 sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
-    --shm-size= 2g \
+    --shm-size=2g \
     -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
     -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
     selenium/node-firefox:4.1.1-20211217"
