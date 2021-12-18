@@ -36,7 +36,8 @@ pipeline {
             steps {
                 script{
                     test("Staging")
-                    createSelenium()
+                    createSeleniumHub()
+                    createWebBrowsers()
                     testSeleniumChrome()
                     testSeleniumFirefox()
                     removeSelenium()    
@@ -98,11 +99,13 @@ def buildImage(){
     sh "docker build -t mvn_tests . -f Dockerfile "
 }
 
-def createSelenium() {
+def createWebBrowsers() {
     echo "Building Selenium"
     echo "Building Selenium-hub"
     echo "Building Firefox"
+    sh "docker run -d -p 4444:4444 --shm-size="2g" selenium/standalone-firefox:4.1.1-20211217"
     echo "Building Chrome"
+    sh "docker run -d -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:4.1.1-20211217"
 }
 
 def removeSelenium(){
@@ -110,6 +113,7 @@ def removeSelenium(){
     sh "docker rm -f hub"
     sh "docker rm -f firefox"
     sh "docker rm -f chrome"
+    removeGrid()
 }
 
 def testSeleniumChrome(){
@@ -118,6 +122,30 @@ def testSeleniumChrome(){
 
 def testSeleniumFirefox(){
     sh "docker run  --network=test-automation-setup mvn_tests mvn clean test -Dbrowser=firefox -DgridURL=hub:4444"
+}
+
+def createSeleniumHub(){
+sh "docker network create grid"
+sh "docker run -d -p 4442-4444:4442-4444 --net grid --name selenium-hub selenium/hub:4.1.1-20211217
+docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
+    --shm-size="2g" \
+    -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
+    -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+    selenium/node-chrome:4.1.1-20211217"
+sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
+    --shm-size="2g" \
+    -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
+    -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+    selenium/node-edge:4.1.1-20211217"
+sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
+    --shm-size="2g" \
+    -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
+    -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+    selenium/node-firefox:4.1.1-20211217"
+}
+
+def removeGrid(){
+    sh "docker network rm grid"
 }
 
 
