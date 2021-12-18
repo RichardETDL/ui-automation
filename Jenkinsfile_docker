@@ -104,9 +104,9 @@ def createWebBrowsers() {
     echo "Building Selenium"
     echo "Building Selenium-hub"
     echo "Building Firefox"
-    sh "docker run -d -p 4444:4444 --shm-size="2g" selenium/standalone-firefox:4.1.1-20211217"
+    sh "docker run -d -p 4444:4444 --shm-size=2g selenium/standalone-firefox:4.1.1-20211217"
     echo "Building Chrome"
-    sh "docker run -d -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:4.1.1-20211217"
+    sh "docker run -d -p 4444:4444 --shm-size=2g selenium/standalone-chrome:4.1.1-20211217"
 }
 
 def removeSelenium(){
