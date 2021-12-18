@@ -9,7 +9,7 @@ services:
       - test-automation-setup
   chrome:
     image: selenium/node-chrome:3.141.59-20210929
-    container_name: chrome
+    container_name: selenium_chrome
     networks:
       - test-automation-setup
     depends_on:
@@ -19,7 +19,7 @@ services:
       - HUB_PORT=4444
   firefox:
     image: selenium/node-firefox:3.141.59-20210929
-    container_name: firefox
+    container_name: selenium_chrome
     networks:
     - test-automation-setup
     depends_on:
