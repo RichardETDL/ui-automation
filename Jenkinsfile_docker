@@ -95,7 +95,7 @@ def test(String environment){
 
 def buildImage(){
     echo "Building image"
-    sh "docker build -t wruper/mvn_tests:latest . Dockerfile "
+    sh "docker build -t mvn_tests . Dockerfile "
 }
 
 def createSelenium() {
