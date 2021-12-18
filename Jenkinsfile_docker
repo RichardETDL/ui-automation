@@ -6,7 +6,10 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                buildImage()
+                sh "docker stop hub"
+                sh "docker stop firefox"
+                sh "docker stop chrome"
+                sh "socker rm hub firefox chrome"
             }
                 post{
                     success{
@@ -35,11 +38,7 @@ pipeline {
         stage('test-staging') {
             steps {
                 script{
-                    test("Staging")
-                    createSelenium()
-                    testSeleniumChrome()
-                    testSeleniumFirefox()
-                    removeSelenium()    
+                    test("Staging")  
 
                 }
             }
