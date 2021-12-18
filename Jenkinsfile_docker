@@ -116,11 +116,11 @@ def removeSelenium(){
 }
 
 def testSeleniumChrome(){
-    sh "docker run -it --network=test-automation-setup mvn_tests mvn clean test -Dbrowser=chrome -DgridURL=hub:4444"
+    sh "docker run  --network=test-automation-setup mvn_tests mvn clean test -Dbrowser=chrome -DgridURL=hub:4444"
 }
 
 def testSeleniumFirefox(){
-    sh "docker run -it --network=test-automation-setup mvn_tests mvn clean test -Dbrowser=firefox -DgridURL=hub:4444"
+    sh "docker run  --network=test-automation-setup mvn_tests mvn clean test -Dbrowser=firefox -DgridURL=hub:4444"
 }
 
 
