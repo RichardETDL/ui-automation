@@ -7,8 +7,8 @@ pipeline {
         stage('build') {
             steps {
                 buildImage()
-                sh "docker network rm grid"
                 sh "docker rm -f hub"
+                sh "docker network rm grid"
             }
                 post{
                     success{
