@@ -6,8 +6,8 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker stop f40a10306ab3 a744eaf2a04e a97aaf34c223 f389906b4447"
-                sh "docker rm f40a10306ab3 a744eaf2a04e a97aaf34c223 f389906b4447"
+                sh "docker network rm grid"
+                buildImage()
             }
                 post{
                     success{
@@ -37,7 +37,11 @@ pipeline {
             steps {
                 script{
                     test("Staging")
-      
+                    createSeleniumHub()
+                    createWebBrowsers()
+                    testSeleniumChrome()
+                    testSeleniumFirefox()
+                    removeSelenium()    
                 }
             }
                 post{
@@ -113,11 +117,19 @@ def removeSelenium(){
 }
 
 def testSeleniumChrome(){
-    sh "docker run  --network=test-automation-setup mvn_tests mvn clean test -Dbrowser=chrome -DgridURL=hub:4444"
+    sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
+    --shm-size=2g \
+    -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
+    -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+    selenium/node-chrome:4.1.1-20211217"
 }
 
 def testSeleniumFirefox(){
-    sh "docker run  --network=test-automation-setup mvn_tests mvn clean test -Dbrowser=firefox -DgridURL=hub:4444"
+sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
+    --shm-size=2g \
+    -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
+    -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+    selenium/node-firefox:4.1.1-20211217"
 }
 
 def createSeleniumHub(){
