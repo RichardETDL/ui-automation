@@ -6,7 +6,6 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker network rm grid"
                 sh "docker ps -a"
             }
                 post{
