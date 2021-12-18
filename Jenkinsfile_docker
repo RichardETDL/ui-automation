@@ -6,7 +6,8 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker ps -a"
+                sh "docker stop 9479730e46e6 52d3f65de60b"
+                sh "docker rm 9479730e46e6 52d3f65de60b"
             }
                 post{
                     success{
