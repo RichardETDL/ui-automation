@@ -38,6 +38,7 @@ pipeline {
                     test("Staging")
                     startSelenium()
                     wait(20)
+                    stopSeleniumContainers(
                     closeSeleniumContainers()
                 }
             }
@@ -101,6 +102,10 @@ def startSelenium(){
 
 def closeSeleniumContainers(){
     sh "docker-compose rm -f"
+}
+
+def stopSeleniumContainers(){
+    sh "docker-compose stop"
 }
 
 
