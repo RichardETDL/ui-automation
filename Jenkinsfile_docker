@@ -6,10 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker stop hub"
-                sh "docker stop firefox"
-                sh "docker stop chrome"
-                sh "socker rm hub firefox chrome"
+                sh "docker ps -a"
             }
                 post{
                     success{
