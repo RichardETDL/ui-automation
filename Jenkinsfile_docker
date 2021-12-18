@@ -8,6 +8,7 @@ pipeline {
             steps {
                 buildImage()
                 sh "docker network rm grid"
+                sh "docker rm -f hub"
             }
                 post{
                     success{
@@ -129,17 +130,17 @@ def createSeleniumHub(){
 sh "docker network create grid"
 sh "docker run -d -p 4442-4444:4442-4444 --net grid --name selenium-hub selenium/hub:4.1.1-20211217"
 sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
-    --shm-size="2g" \
+    --shm-size= 2g \
     -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
     -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
     selenium/node-chrome:4.1.1-20211217"
 sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
-    --shm-size="2g" \
+    --shm-size= 2g \
     -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
     -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
     selenium/node-edge:4.1.1-20211217"
 sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
-    --shm-size="2g" \
+    --shm-size= 2g \
     -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
     -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
     selenium/node-firefox:4.1.1-20211217"
