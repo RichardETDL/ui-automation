@@ -95,7 +95,7 @@ def test(String environment){
 
 def buildImage(){
     echo "Building image"
-    sh "docker build -t mvn_tests . Dockerfile "
+    sh "docker build -t mvn_tests . -f Dockerfile "
 }
 
 def createSelenium() {
