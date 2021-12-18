@@ -30,7 +30,7 @@ services:
   mvn-tests: 
     image: mvn_tests
     build: ./
-    container_name: mvn_tests
+    container_name: mvn_test
     networks:
     - test-automation-setup
 networks:
