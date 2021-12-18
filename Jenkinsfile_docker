@@ -38,7 +38,7 @@ pipeline {
                     test("Staging")
                     startSelenium()
                     wait(20)
-                    stopSeleniumContainers(
+                    stopSeleniumContainers()
                     closeSeleniumContainers()
                 }
             }
