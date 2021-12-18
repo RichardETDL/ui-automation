@@ -6,8 +6,8 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                
-                sh "docker rm f3acf962b9f1 68086590309b 0fac6d092be8"
+                sh "docker stop f3acf962b9f1756201a923e60d92b75bf7a9815ab5d2d4a9f666f940473df769"
+                sh "docker rm f3acf962b9f1756201a923e60d92b75bf7a9815ab5d2d4a9f666f940473df769"
             }
                 post{
                     success{
