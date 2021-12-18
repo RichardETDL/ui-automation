@@ -6,6 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
+                sh "docker-compose stop"
                 sh "docker-compose rm -f" 
             }
                 post{
