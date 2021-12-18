@@ -6,8 +6,8 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker stop 9479730e46e6 52d3f65de60b"
-                sh "docker rm 9479730e46e6 52d3f65de60b"
+                sh "docker network rm grid"
+                buildImage()
             }
                 post{
                     success{
@@ -37,7 +37,11 @@ pipeline {
             steps {
                 script{
                     test("Staging")
-  
+                    createSeleniumHub()
+                    createWebBrowsers()
+                    testSeleniumChrome()
+                    testSeleniumFirefox()
+                    removeSelenium()    
                 }
             }
                 post{
@@ -96,8 +100,6 @@ def buildImage(){
 }
 
 def createWebBrowsers() {
-    echo "Building Selenium"
-    echo "Building Selenium-hub"
     echo "Building Firefox"
     sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
     --shm-size=2g \
