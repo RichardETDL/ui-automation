@@ -6,8 +6,8 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker stop 4192d1f85fd7 e25fe86ea91a cd285fadb1ac 8c39dd673fcd"
-                sh "docker rm 4192d1f85fd7 e25fe86ea91a cd285fadb1ac 8c39dd673fcd"
+                sh "docker network rm grid"
+                buildImage()
             }
                 post{
                     success{
@@ -36,7 +36,12 @@ pipeline {
         stage('test-staging') {
             steps {
                 script{
-                    test("Staging")  
+                    test("Staging")
+                    createSeleniumHub()
+                    createWebBrowsers()
+                    testSeleniumChrome()
+                    testSeleniumFirefox()
+                    removeSelenium()    
                 }
             }
                 post{
