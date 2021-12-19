@@ -6,7 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                buildImage()
+                sh "docker ps -a"
             }
                 post{
                     success{
@@ -36,10 +36,6 @@ pipeline {
             steps {
                 script{
                     test("Staging")
-                    createSeleniumHub()  
-                    createWebBrowsers()
-                    testSeleniumFirefox()
-                    removeSelenium() 
                 }
             }
                 post{
@@ -95,18 +91,18 @@ def test(String environment){
 
 def buildImage(){
     echo "Building image"
-    sh "docker build -t mvn_tests . -f Dockerfile "
+    sh "docker build -t mvn_tests -name mvn_tests . -f Dockerfile "
 }
 
 def createWebBrowsers() {
     echo "Building Firefox"
-    sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
+    sh "docker run -d -name firefox --net grid -e SE_EVENT_BUS_HOST=hub \
     --shm-size=2g \
     -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
     -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
     selenium/node-firefox:3.141.59-20210929"
     echo "Building Chrome"
-    sh "docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub \
+    sh "docker run -d -name chrome --net grid -e SE_EVENT_BUS_HOST=hub \
     --shm-size=2g \
     -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
     -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
@@ -114,8 +110,8 @@ def createWebBrowsers() {
 }
 
 def removeSelenium(){
-   sh "docker kill ${docker ps -q}"
-    sh "docker rm ${docker ps -a -q}"
+   sh "docker kill docker ps -q"
+    sh "docker rm docker ps -a -q"
 
 }
 
