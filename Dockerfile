@@ -7,3 +7,5 @@ RUN mkdir test_results
 RUN mvn dependency:resolve
 RUN mvn clean install -DskipTests
 
+
+#ENTRYPOINT [ "bash","commands.sh" ]
