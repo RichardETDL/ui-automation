@@ -7,7 +7,7 @@ pipeline {
         stage('build') {
             steps {
                 buildImage()
-                removeSelenium()
+                sh "docker network rm grid"
             }
                 post{
                     success{
