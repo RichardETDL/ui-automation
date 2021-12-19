@@ -6,8 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                buildImage()
-                removeGrid()
+                sh "docker ps -a"
             }
                 post{
                     success{
@@ -37,10 +36,6 @@ pipeline {
             steps {
                 script{
                     test("Staging")
-                    createSeleniumHub()  
-                    createWebBrowsers()
-                    testSeleniumFirefox()
-                    removeSelenium() 
                 }
             }
                 post{
@@ -115,9 +110,6 @@ def createWebBrowsers() {
 }
 
 def removeSelenium(){
-    sh "docker kill '(docker ps -q)'"
-    removeGrid()
-    sh "docker rm '(docker ps -a -q)'"
 }
 
 def testSeleniumChrome(){
