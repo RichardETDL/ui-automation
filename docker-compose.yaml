@@ -28,7 +28,7 @@ services:
       - HUB_HOST=hub
       - HUB_PORT=4444
   mvn-tests: 
-    image: mvn_tests
+    image: mvn_test
     build: ./
     container_name: mvn_test
     networks:
