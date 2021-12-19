@@ -6,7 +6,9 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker ps -a"
+                sh "docker stop be62602f46f9 ef947b44ed24 21b201c6e29c 498a7643e20f"
+                sh "docker network rm grid"
+                sh "docker rm be62602f46f9 ef947b44ed24 21b201c6e29c 498a7643e20f"
             }
                 post{
                     success{
@@ -113,7 +115,7 @@ def removeSelenium(){
 }
 
 def testSeleniumChrome(){
-    sh "docker run  --network=test-automation-setup mvn_tests mvn clean test -Dbrowser=chrome -DgridURL=hub:4444"
+    sh "docker run -d --network=test-automation-setup mvn_tests mvn clean test -Dbrowser=chrome -DgridURL=hub:4444"
 }
 
 def testSeleniumFirefox(){
