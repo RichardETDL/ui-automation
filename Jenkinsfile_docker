@@ -38,7 +38,6 @@ pipeline {
                     test("Staging")
                     createSeleniumHub()
                     createWebBrowsers()
-                    testSeleniumChrome()
                     testSeleniumFirefox()
                     removeSelenium()    
                 }
