@@ -147,10 +147,12 @@ def removeSelenium(){
 }
 
 def testSeleniumChrome(){
+    echo "Runing tests on Chrome"
     sh "docker run  --network=grid mvn_tests mvn clean test -Dbrowser=chrome -DgridURL=hub:4444"
 }
 
 def testSeleniumFirefox(){
+    echo "Runing tests on Firefox"
     sh "docker run  --network=grid mvn_tests mvn clean test -Dbrowser=firefox -DgridURL=hub:4444"
 }
 
@@ -162,6 +164,3 @@ sh "docker run -d -p 4444:4444 --net grid --name hub selenium/hub:3.141.59-20210
 def removeGrid(){
     sh "docker network rm grid"
 }
-
-
-
