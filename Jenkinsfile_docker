@@ -71,6 +71,10 @@ pipeline {
             steps {
                 script{
                     test("Production")
+                    createSeleniumHub()
+                    createWebBrowsers()
+                    testSeleniumChrome()
+                    testSeleniumFirefox()
                 }
             }
                 post{
@@ -79,6 +83,7 @@ pipeline {
                 }
                     failure{
                         sh "bash send_notification.sh testing_production 1"
+                        removeSelenium()
                 }
             }
         }
