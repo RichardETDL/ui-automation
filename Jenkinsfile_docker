@@ -95,18 +95,18 @@ def test(String environment){
 
 def buildImage(){
     echo "Building image"
-    sh "docker build -t mvn_tests -name mvn . -f Dockerfile "
+    sh "docker build -t mvn_tests --name mvn . -f Dockerfile "
 }
 
 def createWebBrowsers() {
     echo "Building Firefox"
-    sh "docker run -d -name firefox --net grid -e SE_EVENT_BUS_HOST=hub \
+    sh "docker run -d --name firefox --net grid -e SE_EVENT_BUS_HOST=hub \
     --shm-size=2g \
     -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
     -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
     selenium/node-firefox:3.141.59-20210929"
     echo "Building Chrome"
-    sh "docker run -d -name chrome --net grid -e SE_EVENT_BUS_HOST=hub \
+    sh "docker run -d --name chrome --net grid -e SE_EVENT_BUS_HOST=hub \
     --shm-size=2g \
     -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
     -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
