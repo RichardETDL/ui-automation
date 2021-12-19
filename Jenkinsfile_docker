@@ -6,7 +6,8 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker ps -a"
+                sh "docker rm 9973a25ca81b efb35230a46a 68f9bdfefa7d f97134af1402"
+                removeGrid()
             }
                 post{
                     success{
