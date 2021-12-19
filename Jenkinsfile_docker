@@ -7,6 +7,8 @@ pipeline {
         stage('build') {
             steps {
                 buildImage()
+                sh "docker stop hub"
+                sh "docker rm hub"
                 removeGrid()
             }
                 post{
