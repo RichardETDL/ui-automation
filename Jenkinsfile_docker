@@ -6,7 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker stops 9973a25ca81b efb35230a46a 68f9bdfefa7d f97134af1402"
+                sh "docker stop 9973a25ca81b efb35230a46a 68f9bdfefa7d f97134af1402"
                 sh "docker rm 9973a25ca81b efb35230a46a 68f9bdfefa7d f97134af1402"
                 removeGrid()
             }
