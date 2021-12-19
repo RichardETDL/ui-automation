@@ -112,11 +112,11 @@ pipeline {
 }
 
 def deploy(String environment){
-        echo "Deployment to ${environment} triggered.."
+    echo "Deployment to ${environment} triggered.."
 }
 
 def test(String environment){
-    echo "Running tests to ${environment}.."
+    echo "Running tests in ${environment}.."
 }
 
 def buildImage(){
@@ -132,7 +132,6 @@ def createWebBrowsers() {
     selenium/node-firefox:3.141.59-20210929"
 
     echo "Building Chrome"
-
      sh "docker run -d --name chrome --net grid \
     -e HUB_HOST=hub \
     -e HUB_PORT=4444 \
