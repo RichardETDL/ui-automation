@@ -6,7 +6,9 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker ps -a"
+                sh "docker stop 0fdc6ac216f8 71f33cb9b6bf 9271fff64f5b bedf76fbce91"
+                removeGrid()
+                sh "docker rm 0fdc6ac216f8 71f33cb9b6bf 9271fff64f5b bedf76fbce91"
             }
                 post{
                     success{
@@ -110,8 +112,9 @@ def createWebBrowsers() {
 }
 
 def removeSelenium(){
-   sh "docker kill docker ps -q"
-    sh "docker rm docker ps -a -q"
+   sh "docker stop firefox hub chrome mvn_tests"
+   removeGrid()
+    sh "docker rm firefox hub chrome mvn_tests"
 
 }
 
