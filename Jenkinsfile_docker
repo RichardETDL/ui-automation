@@ -115,9 +115,9 @@ def createWebBrowsers() {
 }
 
 def removeSelenium(){
-    sh "docker kill '$(docker ps -q)'"
+    sh "docker kill '(docker ps -q)'"
     removeGrid()
-    sh "docker rm '$(docker ps -a -q)'"
+    sh "docker rm '(docker ps -a -q)'"
 }
 
 def testSeleniumChrome(){
