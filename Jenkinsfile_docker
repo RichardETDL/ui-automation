@@ -100,16 +100,18 @@ def buildImage(){
 
 def createWebBrowsers() {
     echo "Building Firefox"
-    sh "docker run -d --name firefox --net grid -e SE_EVENT_BUS_HOST=hub \
-    --shm-size=2g \
-    -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
-    -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+    sh "docker run -d --name firefox --net grid \
+    depends_on hub \
+    -e HUB_HOST=hub \
+    -e HUB_PORT=4444
     selenium/node-firefox:3.141.59-20210929"
+
     echo "Building Chrome"
-    sh "docker run -d --name chrome --net grid -e SE_EVENT_BUS_HOST=hub \
-    --shm-size=2g \
-    -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
-    -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+
+     sh "docker run -d --name chrome --net grid \
+    depends_on hub \
+    -e HUB_HOST=hub \
+    -e HUB_PORT=4444
     selenium/node-chrome:3.141.59-20210929"
 }
 
