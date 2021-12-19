@@ -104,7 +104,6 @@ def buildImage(){
 def createWebBrowsers() {
     echo "Building Firefox"
     sh "docker run -d --name firefox --net grid \
-    links hub \
     -e HUB_HOST=hub \
     -e HUB_PORT=4444 \
     selenium/node-firefox:3.141.59-20210929"
@@ -112,7 +111,6 @@ def createWebBrowsers() {
     echo "Building Chrome"
 
      sh "docker run -d --name chrome --net grid \
-    links hub \
     -e HUB_HOST=hub \
     -e HUB_PORT=4444 \
     selenium/node-chrome:3.141.59-20210929"
