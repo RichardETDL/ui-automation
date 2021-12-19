@@ -95,7 +95,7 @@ def test(String environment){
 
 def buildImage(){
     echo "Building image"
-    sh "docker build  --name mvn  -t mvn_tests . -f Dockerfile "
+    sh "docker build -t mvn_tests . -f Dockerfile "
 }
 
 def createWebBrowsers() {
@@ -114,9 +114,9 @@ def createWebBrowsers() {
 }
 
 def removeSelenium(){
-   sh "docker stop firefox hub chrome mvn"
+   sh "docker stop firefox hub chrome"
    removeGrid()
-    sh "docker rm firefox hub chrome mvn"
+    sh "docker rm firefox hub chrome"
 
 }
 
