@@ -6,8 +6,7 @@ pipeline {
     stages { 
         stage('build') {
             steps {
-                sh "docker stop 9723bca5addc 814590ca4a37 05620822df4e"
-                sh "docker rm 9723bca5addc 814590ca4a37 05620822df4e"
+                buildImage()
             }
                 post{
                     success{
@@ -36,7 +35,11 @@ pipeline {
         stage('test-staging') {
             steps {
                 script{
-                    test("Staging")    
+                    test("Staging")
+                    createSeleniumHub()  
+                    createWebBrowsers()
+                    testSeleniumFirefox()
+                    removeSelenium() 
                 }
             }
                 post{
@@ -111,11 +114,9 @@ def createWebBrowsers() {
 }
 
 def removeSelenium(){
-    echo "Removing Selenium-hub, Firefox, Chrome"
-    sh "docker rm -f hub"
-    sh "docker rm -f firefox"
-    sh "docker rm -f chrome"
+    sh "docker kill $(docker ps -q)"
     removeGrid()
+    sh "docker rm $(docker ps -a -q)"
 }
 
 def testSeleniumChrome(){
